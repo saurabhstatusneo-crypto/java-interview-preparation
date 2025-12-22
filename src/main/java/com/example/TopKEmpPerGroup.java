@@ -1,11 +1,9 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /***
  * 1. Top-K Elements Per Group
@@ -18,20 +16,18 @@ import java.util.stream.Collectors;
 public class TopKEmpPerGroup {
 static List<Employee> employeeList = Arrays.asList(
         new Employee(1L,"saurabh","java",5000l),
-        new Employee(2L,"jagdish","ELK",1000l),
+        new Employee(2L,"jagdish","elk",1000l),
         new Employee(3L,"abhinav","java",12000l),
-        new Employee(4L,"dinesh","ELK",3000l),
-         new Employee(5L,"ravi","ELK",4000l)
+        new Employee(4L,"dinesh","elk",3000l),
+         new Employee(5L,"ravi","elk",4000l)
 );
 
     public static void main(String[] args) {
-      Map<String, List<Employee>> result=  employeeList.stream().collect(Collectors.groupingBy(Employee::getDepartment,
-                Collectors.collectingAndThen(Collectors.toList(), list -> list.stream()
-                        .sorted(Comparator.comparing(Employee::getSalary).reversed()).limit(1).collect(Collectors.toList())
-                )
-                ));
+        Map<String, List<Employee>> map = employeeList.stream().collect(
+                Collectors.groupingBy(Employee::getDepartment, ()-> new TreeMap<>(), Collectors.collectingAndThen(Collectors.toList(),
+                list -> list.stream().sorted(Comparator.comparing(Employee::getSalary).reversed()).limit(1).collect(Collectors.toList()))));
 
-      result.entrySet().stream().forEach(e->e.getValue().stream().forEach(a-> System.out.println(a.getDepartment() +"-"+ a)));
+        System.out.println(map);
     }
 }
 
