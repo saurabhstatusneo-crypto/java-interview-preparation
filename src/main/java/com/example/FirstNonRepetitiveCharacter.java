@@ -19,14 +19,13 @@ import java.util.stream.Stream;
 public class FirstNonRepetitiveCharacter {
     public static void main(String[] args) {
         String name = "Saurabhshara";
-
-        Character result = name.chars()
-                .mapToObj(ch->(char)ch)
-                .collect(Collectors.groupingBy(ch ->ch , LinkedHashMap::new, Collectors.counting()))
+        Character result = name.chars().mapToObj(ch->(char)ch)
+                .collect(Collectors.groupingBy(ch->ch, LinkedHashMap::new,Collectors.counting()))
                 .entrySet().stream()
-                .filter(map->map.getValue()!=1)
+                .filter(e->e.getValue()==1)
                 .map(Map.Entry::getKey)
                 .findFirst().get();
+
 
         System.out.println("Result: "+result);
 
