@@ -27,17 +27,16 @@ Do not throw exception for duplicate keys
 public class JavaMapperEmployee {
     public static void main(String[] args) {
         List <Employee> employeeList = Arrays.asList(
-                new Employee(1L,"saurabh",12000.0),
+                new Employee(1L,"saurabh",10000.0),
                 new Employee(2L,"jagdish",1000.0),
                 new Employee(3L,"rahul",3000.0),
                 new Employee(1L,"vijay",4000.0),
                 new Employee(5L,"ravi",5000.0)
         );
 
-        Map<Long,Employee> result  = employeeList
-                .stream()
-                .collect(Collectors.toMap(Employee::getId,emp->emp, (e1,e2)->e1.getSalary()>=e2.getSalary()?e1:e2));
-
+        Map<Long,Employee> result  = employeeList.stream().collect(
+          Collectors.toMap(Employee::getId,emp->emp, (e1,e2)->e1.getSalary()>e2.getSalary()?e1:e2)
+        );
         System.out.println(result);
     }
 }
